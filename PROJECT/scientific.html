@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style1.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="dropdown position-absolute top-0 end-0 m-10">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Menu
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="index.html">Simple</a></li>
+                <li><a class="dropdown-item" href="scientific.html">Scientific</a></li>
+                <li><a class="dropdown-item" href="currency.html">Currency Converter</a></li>
+                <li><a class="dropdown-item" href="bmi.html">BMI</a></li>
+            </ul>
+        </div>
+
+        <h1 class="text-center"> Scientific Calculator</h1>
+        <div class="calc">
+            <input class="calc-display" id="display">
+            <table>
+                <tr>
+                    <td><input type="button" value="C" onclick="clearDisplay()"></td>
+                    <td><input type="button" value="/" onclick="appendOperator('/')"></td>
+                    <td><input type="button" value="<" onclick="backspace()"></td>
+                    <td><input type="button" value="X" onclick="appendOperator('*')"></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="7" onclick="appendToDisplay('7')"></td>
+                    <td><input type="button" value="8" onclick="appendToDisplay('8')"></td>
+                    <td><input type="button" value="9" onclick="appendToDisplay('9')"></td>
+                    <td><input type="button" value="-" onclick="appendOperator('-')"></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="4" onclick="appendToDisplay('4')"></td>
+                    <td><input type="button" value="5" onclick="appendToDisplay('5')"></td>
+                    <td><input type="button" value="6" onclick="appendToDisplay('6')"></td>
+                    <td><input type="button" value="+" onclick="appendOperator('+')"></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="1" onclick="appendToDisplay('1')"></td>
+                    <td><input type="button" value="2" onclick="appendToDisplay('2')"></td>
+                    <td><input type="button" value="3" onclick="appendToDisplay('3')"></td>
+                    <td rowspan=2><input type="button" value="=" onclick="calculate()" style="height: 158px; background-color: orange"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="button" value="0" onclick="appendToDisplay('0')" style="width: 158px;"></td>
+                    <td><input type="button" value="." onclick="appendToDisplay('.')"></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="sin" onclick="appendToDisplay('sin(')"></td>
+                    <td><input type="button" value="cos" onclick="appendToDisplay('cos(')"></td>
+                    <td><input type="button" value="tan" onclick="appendToDisplay('tan(')"></td>
+                    <td><input type="button" value="^" onclick="power()"></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="sqrt" onclick="squareRoot()"></td>
+                    <td><input type="button" value="log" onclick="base10Log()"></td>
+                    <td><input type="button" value="(" onclick="appendToDisplay('(')"></td>
+                    <td><input type="button" value=")" onclick="appendToDisplay(')')"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- script  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.1.0/math.js"></script>
+
+    <script>
+        function backspace() {
+            let display = document.getElementById("display");
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            let display = document.getElementById("display");
+            let expression = display.value;
+            let result;
+
+            try {
+                // Convert trigonometric function inputs from degrees to radians
+                expression = expression.replace(/sin\(/g, 'sin(' + Math.PI / 180 + '*');
+                expression = expression.replace(/cos\(/g, 'cos(' + Math.PI / 180 + '*');
+                expression = expression.replace(/tan\(/g, 'tan(' + Math.PI / 180 + '*');
+
+                result = math.evaluate(expression);
+                display.value = result;
+            } catch (error) {
+                display.value = "Error";
+            }
+        }
+
+        function squareRoot() {
+            let display = document.getElementById("display");
+            display.value += "sqrt(";
+        }
+
+        function base10Log() {
+            let display = document.getElementById("display");
+            display.value += "log(";
+        }
+
+        function pi() {
+            let display = document.getElementById("display");
+            display.value += "pi";
+        }
+
+        function e() {
+            let display = document.getElementById("display");
+            display.value += "e";
+        }
+
+        function power() {
+            let display = document.getElementById("display");
+            display.value += "^(";
+        }
+
+        function appendToDisplay(value) {
+            let display = document.getElementById("display");
+            display.value += value;
+        }
+
+        function appendOperator(operator) {
+            let display = document.getElementById("display");
+            display.value += operator;
+        }
+
+        function clearDisplay() {
+            let display = document.getElementById("display");
+            display.value = '';
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
